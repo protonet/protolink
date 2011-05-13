@@ -4,12 +4,12 @@ ProtoLink is a library for interfacing with ProtoNet, the next-gen internet infr
 
 ## Usage
 
-protonet = ProtoLink::Protonet.new 'mysubdomain', :token => '546884b3d8fee4d80665g561caf7h9f3ea7b999e'
-room = protonet.rooms.first
-room.speak 'Hello world!'
+    protonet = ProtoLink::Protonet.new 'mysubdomain', :token => '546884b3d8fee4d80665g561caf7h9f3ea7b999e'
+    room = protonet.rooms.first
+    room.speak 'Hello world!'
 
-room = protonet.find_room_by_guest_hash 'dudemaster', 'cowboy'
-room.speak 'Hello world!'
+    room = protonet.find_room_by_guest_hash 'dudemaster', 'cowboy'
+    room.speak 'Hello world!'
 
 ## Installation
 
