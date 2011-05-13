@@ -4,7 +4,7 @@ ProtoLink is a library for interfacing with ProtoNet, the next-gen internet infr
 
 ## Usage
 
-    protonet = ProtoLink::Protonet.new 'mysubdomain', :token => '546884b3d8fee4d80665g561caf7h9f3ea7b999e'
+    protonet = ProtoLink::Protonet.new 'myfulldomain', :token => 'lk3364b3d8fee4d80sse5g561caf7h9f3ea7blsue'
     room = protonet.rooms.first
     room.speak 'Hello world!'
 
