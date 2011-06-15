@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name = %q{protolink}
   s.version = Protolink::VERSION
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Björn B. Dorra"]
+  s.authors = ["Björn B. Dorra", "Ali Jelveh"]
   s.description = %q{A Ruby API for interfacing with Protonet, the next-gen internet infrastructure. Truly social and people-powered.}
   s.email = %q{dorra@d-1.comg}
   s.extra_rdoc_files = [
