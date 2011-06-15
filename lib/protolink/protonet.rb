@@ -58,8 +58,14 @@ module Protolink
     end
 
     # Creates and returns a new user with the given attributes
-    def create_user(login, password, name, email, avatar_url = nil, channels = nil)
-      connection.post('/api/v1/users/create.json', {:login => login, :name => name, :password => password, :email => email, :avatar_url => avatar_url, :channels => channels } )
+    def create_user(login, password = nil, name = nil, email = nil, avatar_url = nil, channels = nil)
+      if channels
+        # not implemented yet
+        no_channels = "true"
+      else
+        no_channels = "true"
+      end
+      connection.post('/api/v1/users/create.json', {:login => login, :name => name, :password => password, :email => email, :avatar_url => avatar_url, :no_channels => no_channels, :channels_to_subscribe => nil } )
       find_user_by_login(login)
     end
 
@@ -68,8 +74,8 @@ module Protolink
       users.detect { |user| user.login == login }
     end
 
-    def find_or_create_user_by_login(login, password, name, email, avatar_url = nil, channels = nil)
-      find_user_by_login(name) || create_user(login, password, name, email, avatar_url = nil, channels = nil)
+    def find_or_create_user_by_login(login, password = nil, name = nil, email = nil, avatar_url = nil, channels = nil)
+      find_user_by_login(login) || create_user(login, password, name, email, avatar_url = nil, channels = nil)
     end
 
 
