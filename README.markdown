@@ -48,6 +48,15 @@ Sorry, there are no tests at all yet...
     channel.speak 'Hello world!'
 
 
+    # find channel by id
+    require 'rubygems'
+    require 'protolink'
+
+    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    channel  = protonet.find_channel(117)
+    channel.speak 'Hello world!'
+
+
     # find or create a channel
     require 'rubygems'
     require 'protolink'
@@ -66,6 +75,12 @@ Sorry, there are no tests at all yet...
     protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
     user     = protonet.find_user_by_login("bjoern.dorra")
 
+    # find user by id
+    require 'rubygems'
+    require 'protolink'
+
+    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    user     = protonet.find_user(117)
 
     # create a user
     require 'rubygems'

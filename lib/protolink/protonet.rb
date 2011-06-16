@@ -45,6 +45,10 @@ module Protolink
       find_channel_by_name(name) || create_channel(name, description)
     end
 
+    # Find a Channel by id
+    def find_channel(id)
+      channels.detect { |channel| channel.id == id }
+    end
 
     # USERS
     
@@ -72,6 +76,10 @@ module Protolink
       find_user_by_login(name) || create_user(login, password, name, email, avatar_url = nil, channels = nil)
     end
 
+    # Find a user by id
+    def find_user(id)
+      users.detect { |user| user.id == id }
+    end
 
     # LISTENS
     def create_listen(user_id, channel_id)
