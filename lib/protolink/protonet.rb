@@ -84,7 +84,7 @@ module Protolink
 
     # Find a user by id
     def find_user(id)
-      users.detect { |user| user.id == id }
+      connection.get("/api/v1/users.json?user_id=#{id}").first
     end
 
     # LISTENS
