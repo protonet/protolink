@@ -72,20 +72,20 @@ module Protolink
 
     # Creates and returns a new user with the given attributes
     def create_user(options)
-      login       = options[:login] || raise(ArgumentError, "Please provide a login for this user")
-      password    = options[:password]
-      name        = options[:name]
-      email       = options[:email] || raise(ArgumentError, "Please provide an email for this user")
-      avatar_url  = options[:avatar_url]
-      profile_url = options[:profile_url]
-      channels    = options[:channels]
+      login                 = options[:login] || raise(ArgumentError, "Please provide a login for this user")
+      password              = options[:password]
+      name                  = options[:name]
+      email                 = options[:email] || raise(ArgumentError, "Please provide an email for this user")
+      avatar_url            = options[:avatar_url]
+      external_profile_url  = options[:external_profile_url]
+      channels              = options[:channels]
       if channels
         # not implemented yet
         no_channels = "true"
       else
         no_channels = "true"
       end
-      post('/api/v1/users', :body => {:login => login, :name => name, :password => password, :email => email, :avatar_url => avatar_url, :no_channels => no_channels, :channels_to_subscribe => nil } )
+      post('/api/v1/users', :body => {:login => login, :name => name, :password => password, :email => email, :avatar_url => avatar_url, :no_channels => no_channels, :channels_to_subscribe => nil, :external_profile_url => external_profile_url } )
       find_user_by_login(login)
     end
 

@@ -45,10 +45,11 @@ class TestAll < Test::Unit::TestCase
     protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
     assert protonet, "Couldn't create connection instance"
     
-    user_1 = protonet.create_user(:login => 'test', :email => 'test@test.com')
+    user_1 = protonet.create_user(:login => 'test', :email => 'test@test.com', :external_profile_url => 'http://www.google.de')
     assert user_1.is_a?(Protolink::User), "Couldn't create user"
     assert_equal 'test', user_1.login
     assert_equal 'test@test.com', user_1.email
+    assert_equal 'http://www.google.de', user_1.external_profile_url
     assert user_1.auth_token.match(/\w+/)
     
     user_2 = protonet.find_or_create_user_by_login('test', :email => 'test@test.com')
