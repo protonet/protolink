@@ -25,33 +25,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<activesupport>, [">= 0"])
-      s.add_runtime_dependency(%q<faraday>, ["~> 0.5.1"])
-      s.add_runtime_dependency(%q<multipart-post>, [">= 0"])
-      s.add_runtime_dependency(%q<mime-types>, [">= 0"])
-      s.add_runtime_dependency(%q<twitter-stream>, [">= 0"])
-      s.add_runtime_dependency(%q<eventmachine>, [">= 0"])
-      s.add_development_dependency(%q<rspec>, [">= 0"])
-      s.add_development_dependency(%q<fakeweb>, [">= 0"])
+      s.add_runtime_dependency(%q<crack>, [">= 0"])
+      s.add_runtime_dependency(%q<httparty>, ["~> 0.5.1"])
     else
-      s.add_dependency(%q<activesupport>, [">= 0"])
-      s.add_dependency(%q<faraday>, ["~> 0.5.1"])
-      s.add_dependency(%q<multipart-post>, [">= 0"])
-      s.add_dependency(%q<mime-types>, [">= 0"])
-      s.add_dependency(%q<twitter-stream>, [">= 0"])
-      s.add_dependency(%q<eventmachine>, [">= 0"])
-      s.add_dependency(%q<rspec>, [">= 0"])
-      s.add_dependency(%q<fakeweb>, [">= 0"])
+      s.add_dependency(%q<crack>, [">= 0"])
+      s.add_dependency(%q<httparty>, ["~> 0.5.1"])
     end
   else
-    s.add_dependency(%q<activesupport>, [">= 0"])
-    s.add_dependency(%q<faraday>, ["~> 0.5.1"])
-    s.add_dependency(%q<multipart-post>, [">= 0"])
-    s.add_dependency(%q<mime-types>, [">= 0"])
-    s.add_dependency(%q<twitter-stream>, [">= 0"])
-    s.add_dependency(%q<eventmachine>, [">= 0"])
-    s.add_dependency(%q<rspec>, [">= 0"])
-    s.add_dependency(%q<fakeweb>, [">= 0"])
+    s.add_dependency(%q<crack>, [">= 0"])
+    s.add_dependency(%q<httparty>, ["~> 0.5.1"])
   end
 end
 

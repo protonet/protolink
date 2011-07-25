@@ -16,6 +16,16 @@ module Protolink
       send_message(message)
     end
 
+    def delete!
+      connection.delete("/api/v1/channels/#{self.id}")
+    end
+    
+    def listener
+      users = connection.get("/api/v1/channels/#{self.id}/users")
+      users && users.map do |user|
+        User.new(connection, user)
+      end
+    end
 
     protected
 
@@ -34,7 +44,7 @@ module Protolink
       end
 
       def send_message(message)
-        connection.post("/api/v1/meeps/create", {:channel_id => self.id, :message => message})
+        connection.post("/api/v1/meeps/create", :body => {:channel_id => self.id, :message => message})
       end
 
       def connection

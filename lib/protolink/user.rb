@@ -14,14 +14,14 @@ module Protolink
 
     # get token for autologin
     def auth_token
-      receive_auth_token
+      connection.get("/api/v1/users/#{self.id}/auth_token.json")["token"]
+    end
+    
+    def delete!
+      connection.delete("/api/v1/users/#{self.id}")
     end
 
     protected
-
-      def receive_auth_token
-        connection.get("/api/v1/users/auth_token.json?user_id=#{self.id}")['token']
-      end
 
       def load
         reload! unless @loaded

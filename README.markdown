@@ -9,13 +9,8 @@ Sorry, there are no tests at all yet...
 
 ## Dependencies
 
-    activesupport
-    faraday -v 0.5.1
-    multipart-post
-    mime-types
-    twitter-stream (for streaming listening in future)
-    eventmachine
-
+    httparty
+    crack
 
 ## Usage
 
@@ -25,7 +20,7 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     channel  = protonet.channels.first
     channel.speak 'Hello world!'
 
