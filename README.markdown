@@ -29,7 +29,7 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     channel  = protonet.find_channel_by_name("test")
     channel.speak 'Hello world!'
 
@@ -38,8 +38,8 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
-    channel  = protonet.create_channel("test", "This is the description... woah")
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
+    channel  = protonet.create_channel(:name => "test", :description => "This is the description... woah", :skip_autosubscribe => true)
     channel.speak 'Hello world!'
 
 
@@ -47,7 +47,7 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     channel  = protonet.find_channel(117)
     channel.speak 'Hello world!'
 
@@ -56,8 +56,8 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
-    channel  = protonet.find_or_create_channel_by_name("test", "This is the description... woah")
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
+    channel  = protonet.find_or_create_channel_by_name("test", :description => "This is the description... woah")
     channel.speak 'Hello world!'
 
 
@@ -67,37 +67,37 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     user     = protonet.find_user_by_login("bjoern.dorra")
 
     # find user by id
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     user     = protonet.find_user(117)
 
     # create a user
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
-    user     = protonet.create_user("testuser", "mymassword", "Test-User", "test@test.de")
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
+    user     = protonet.create_user(:login => "testuser", :password => "userpassword", :name => "Test-User", :email => "test@test.de")
 
 
     # find or create a user
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
-    user     = protonet.find_or_create_user_by_login("testuser", "mymassword", "Test-User", "test@test.de")
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
+    user     = protonet.find_or_create_user_by_login("testuser", :password => "mymassword", :name => "Test-User", :email => "test@test.de")
 
 
     # get users auth_token for auto-login
     require 'rubygems'
     require 'protolink'
 
-    protonet = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     user     = protonet.find_user_by_name("bjoern.dorra")
     user.auth_token
       => "A19zNgCzgv4RGDGPc2mL" 
@@ -109,7 +109,7 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet   = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet   = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     user       = protonet.find_user_by_login("bjoern.dorra")
     channel    = protonet.find_channel_by_name("test")
     protonet.create_listen(user.id, channel.id)
@@ -118,7 +118,7 @@ Sorry, there are no tests at all yet...
     require 'rubygems'
     require 'protolink'
 
-    protonet   = Protolink::Protonet.new('SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD', :ssl => false)
+    protonet   = Protolink::Protonet.new('HTTP://SUBDOMAIN.DOMAIN.DE', 'USERLOGIN', 'PASSWORD')
     user       = protonet.find_user_by_login("bjoern.dorra")
     channel    = protonet.find_channel_by_name("test")
     protonet.destroy_listen(user.id, channel.id)
