@@ -2,7 +2,7 @@
 
 ProtoLink is a library for interfacing with ProtoNet, the next-gen internet infrastructure. Truly social and people-powered.
 
-Version: 0.1.0
+Version: 0.2.1
 
 Sorry, there are no tests at all yet...
 
