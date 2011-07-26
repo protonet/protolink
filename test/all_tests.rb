@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 
-require 'rubygems'
-require 'protolink'
+require "rubygems"
+require "protolink"
 require "test/unit"
 
 # require 'ruby-debug'
@@ -70,6 +70,7 @@ class TestAll < Test::Unit::TestCase
     channel_3 = protonet.find_or_create_channel_by_name("test_foobar_2")
     assert channel_3.is_a?(Protolink::Channel), "Couldn't create channel"
     assert_equal 'test_foobar_2', channel_3.name
+    assert channel_3.speak("dude!")["meep_id"] > 0
     
     protonet.create_listen(user_1.id, channel_1.id)
     protonet.create_listen(user_3.id, channel_1.id)
@@ -79,5 +80,6 @@ class TestAll < Test::Unit::TestCase
     protonet.destroy_listen(user_1.id, channel_1.id)
     
     assert_equal [user_3.id], channel_1.listener.map {|u| u.id}.sort
+    
   end
 end

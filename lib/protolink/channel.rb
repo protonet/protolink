@@ -44,7 +44,7 @@ module Protolink
       end
 
       def send_message(message)
-        connection.post("/api/v1/meeps/create", :body => {:channel_id => self.id, :message => message})
+        connection.post("/api/v1/meeps", :body => {:channel_id => self.id, :message => message})
       end
 
       def connection
