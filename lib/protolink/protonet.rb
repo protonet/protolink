@@ -38,10 +38,11 @@ module Protolink
 
     # Creates and returns a new Channel with the given +name+ and optionally a +description+
     def create_channel(options={})
-      name        = options[:name] || raise(ArgumentError, "Please provide a name for the channel")
-      description = options[:description]
+      name          = options[:name] || raise(ArgumentError, "Please provide a name for the channel")
+      description   = options[:description]
+      display_name  = options[:display_name]
       skip_autosubscribe = options[:skip_autosubscribe]
-      post('/api/v1/channels', :body => { :name => name, :description => description, :skip_autosubscribe => skip_autosubscribe } )
+      post('/api/v1/channels', :body => { :name => name, :description => description, :display_name => display_name, :skip_autosubscribe => skip_autosubscribe } )
       find_channel_by_name(name)
     end
 

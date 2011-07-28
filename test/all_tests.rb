@@ -35,6 +35,8 @@ class TestAll < Test::Unit::TestCase
     user.delete!
     user = protonet.find_user_by_login("test_2")
     user.delete!
+    user = protonet.find_user_by_login("test_3")
+    user.delete!
     channel = protonet.find_channel_by_name("test_foobar")
     channel.delete!
     channel = protonet.find_channel_by_name("test_foobar_2")
@@ -59,6 +61,8 @@ class TestAll < Test::Unit::TestCase
     assert user_3.is_a?(Protolink::User), "Couldn't create user"
     assert_equal 'test_2', user_3.login
     assert_equal 'test_2@test.com', user_3.email
+    
+    user_4 = protonet.find_or_create_user_by_login('test_3', {:name => 'foobar', :email => "email@du-bist-mir-sympathisch.de"), :external_profile_url => "http://du-bist-mir-sympathisch.de/profile_redirect", :avatar_url => "http://www.google.com/intl/en_com/images/srpr/logo2w.png"})
     
     channel_1 = protonet.create_channel(:name => "test_foobar", :skip_autosubscribe => true)
     assert channel_1.is_a?(Protolink::Channel), "Couldn't create channel"
