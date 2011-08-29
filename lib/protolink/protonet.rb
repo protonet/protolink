@@ -61,6 +61,16 @@ module Protolink
       response = get("/api/v1/channels/#{name}")
       Channel.new(self, response) if response
     end
+    
+    def create_rendezvous(first_user_id, second_user_id)
+      response = post('/api/v1/rendezvous', :body => { :first_user_id => first_user_id, :second_user_id => second_user_id } )
+      Channel.new(self, response) if response
+    end
+    
+    def find_rendezvous(first_user_id, second_user_id)
+      response = get('/api/v1/rendezvous', :query => {:first_user_id => first_user_id, :second_user_id => second_user_id})
+      Channel.new(self, response) if response
+    end
 
     # USERS
     

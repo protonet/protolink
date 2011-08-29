@@ -4,39 +4,27 @@ require "rubygems"
 require "protolink"
 require "test/unit"
 
-# require 'ruby-debug'
-# Debugger.start
+require 'ruby-debug'
+Debugger.start
 # change this if you need to connect to another server
 PTN_SERVER = "http://localhost:3000"
 PTN_USER   = "dude"
 PTN_PASS   = "geheim"
-# protonet   = Protolink::Protonet.new('localhost:3000', 'bjoern.dorra', 'geheim')
-# 
-# user       = protonet.find_or_create_user_by_login("johndoe", "password", "John Doe", "john@doe.com")
-# auth_token = user.auth_token
-# puts       "user_id     : #{user.id}"
-# puts       "user_login  : #{user.login}"
-# puts       "auth_token  : #{auth_token}"
-# 
-# channel    = protonet.find_or_create_channel_by_name("test", "This is a test channel!")
-# puts       "channel_id  : #{channel.id}"
-# puts       "channel_name: #{channel.name}"
-# puts       "channel_desc: #{channel.description}"
-# 
-# protonet.create_listen(user.id, channel.id)
-# 
-# puts       "\nhttp://localhost:3000/?auth_token=#{auth_token}"
 
 class TestAll < Test::Unit::TestCase
   
   def teardown
     protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
-    user = protonet.find_user_by_login("test")
-    user.delete!
-    user = protonet.find_user_by_login("test_2")
-    user.delete!
-    user = protonet.find_user_by_login("test_3")
-    user.delete!
+    user_1 = protonet.find_user_by_login("test")
+    user_3 = protonet.find_user_by_login("test_2")
+    user_4 = protonet.find_user_by_login("test_3")
+
+    channel = protonet.find_rendezvous(user_3.id, user_1.id)
+    channel.delete!
+
+    user_1.delete!
+    user_3.delete!
+    user_4.delete!
     channel = protonet.find_channel_by_name("test_foobar")
     channel.delete!
     channel = protonet.find_channel_by_name("test_foobar_2")
@@ -62,7 +50,7 @@ class TestAll < Test::Unit::TestCase
     assert_equal 'test_2', user_3.login
     assert_equal 'test_2@test.com', user_3.email
     
-    user_4 = protonet.find_or_create_user_by_login('test_3', {:name => 'foobar', :email => "email@du-bist-mir-sympathisch.de"), :external_profile_url => "http://du-bist-mir-sympathisch.de/profile_redirect", :avatar_url => "http://www.google.com/intl/en_com/images/srpr/logo2w.png"})
+    user_4 = protonet.find_or_create_user_by_login('test_3', {:name => 'foobar', :email => "email@du-bist-mir-sympathisch.de", :external_profile_url => "http://du-bist-mir-sympathisch.de/profile_redirect", :avatar_url => "http://www.google.com/intl/en_com/images/srpr/logo2w.png"})
     
     channel_1 = protonet.create_channel(:name => "test_foobar", :skip_autosubscribe => true)
     assert channel_1.is_a?(Protolink::Channel), "Couldn't create channel"
@@ -85,5 +73,7 @@ class TestAll < Test::Unit::TestCase
     
     assert_equal [user_3.id], channel_1.listener.map {|u| u.id}.sort
     
+    rendezvous = protonet.create_rendezvous(user_3.id, user_1.id)
+    assert_equal [user_1.id, user_3.id], rendezvous.listener.map {|u| u.id.to_i}.sort
   end
 end
