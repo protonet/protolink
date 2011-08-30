@@ -1,13 +1,14 @@
 require 'httparty'
 
 module Protolink
-
+  
   #   protonet = Protolink::Protonet.new 'domain', :user => 'john.doe', :password => 'secret', :token => 'xyz'
   #
   #   channel = protonet.find_channel_by_name 'home'
   #   channel.speak 'Hello world!'
   class Protonet
     include HTTParty
+    class ApiException < RuntimeError; end
     
     # Create a new connection to the account with the given +uri+.
     #
@@ -128,7 +129,11 @@ module Protolink
       class_eval <<-EOS
         def #{method}(uri, options = {})
           response = self.class.#{method}(uri, options)
-          response.code.to_s.match(/2../) ? response : nil
+          if response.code.to_s.match(/2../)
+            response
+          else
+            response['errors'] ? raise(ApiException, response['errors']) : nil
+          end
         end
       EOS
     end

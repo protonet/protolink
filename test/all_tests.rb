@@ -41,7 +41,11 @@ class TestAll < Test::Unit::TestCase
     assert_equal 'test@test.com', user_1.email
     assert_equal 'http://www.google.de', user_1.external_profile_url
     assert user_1.auth_token.match(/\w+/)
-    
+
+    assert_raise(Protolink::Protonet::ApiException) {
+      protonet.create_user(:login => 'test', :email => 'test@test.com', :external_profile_url => 'http://www.google.de')
+    }
+
     user_2 = protonet.find_or_create_user_by_login('test', :email => 'test@test.com')
     assert_equal user_1.id, user_2.id
     
