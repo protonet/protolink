@@ -95,7 +95,7 @@ module Protolink
         # not implemented yet
         no_channels = "true"
       else
-        no_channels = "true"
+        no_channels = "false"
       end
       post('/api/v1/users', :body => {:login => login, :name => name, :password => password, :email => email, :avatar_url => avatar_url, :no_channels => no_channels, :channels_to_subscribe => nil, :external_profile_url => external_profile_url } )
       find_user_by_login(login)
