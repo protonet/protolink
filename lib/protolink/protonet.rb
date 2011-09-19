@@ -75,7 +75,9 @@ module Protolink
     end
 
     def global_channels
-      get('/api/v1/channels?global=true').map do |channel|
+      response = get('/api/v1/channels?global=true')
+      
+      response && response.map do |channel|
         Channel.new(self, channel)
       end
     end
