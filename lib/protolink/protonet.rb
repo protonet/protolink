@@ -32,7 +32,7 @@ module Protolink
 
     # Get an array of all the available channels
     def channels
-      get('/api/v1/channels.json').map do |channel|
+      get('/api/v1/channels').map do |channel|
         Channel.new(self, channel)
       end
     end
@@ -43,7 +43,8 @@ module Protolink
       description   = options[:description]
       display_name  = options[:display_name]
       skip_autosubscribe = options[:skip_autosubscribe]
-      post('/api/v1/channels', :body => { :name => name, :description => description, :display_name => display_name, :skip_autosubscribe => skip_autosubscribe } )
+      global = options[:global]
+      post('/api/v1/channels', :body => { :name => name, :description => description, :display_name => display_name, :skip_autosubscribe => skip_autosubscribe, :global => global } )
       find_channel_by_name(name)
     end
 
@@ -71,6 +72,12 @@ module Protolink
     def find_rendezvous(first_user_id, second_user_id)
       response = get('/api/v1/rendezvous', :query => {:first_user_id => first_user_id, :second_user_id => second_user_id})
       Channel.new(self, response) if response
+    end
+
+    def global_channels
+      get('/api/v1/channels?global=true').map do |channel|
+        Channel.new(self, channel)
+      end
     end
 
     # USERS

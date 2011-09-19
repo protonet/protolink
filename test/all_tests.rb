@@ -8,8 +8,8 @@ require 'ruby-debug'
 Debugger.start
 # change this if you need to connect to another server
 PTN_SERVER = "http://localhost:3000"
-PTN_USER   = "dude"
-PTN_PASS   = "geheim"
+PTN_USER   = "test_suite"
+PTN_PASS   = "testtest"
 
 class TestAll < Test::Unit::TestCase
   
@@ -20,15 +20,15 @@ class TestAll < Test::Unit::TestCase
     user_4 = protonet.find_user_by_login("test_3")
 
     channel = protonet.find_rendezvous(user_3.id, user_1.id)
-    channel.delete!
+    channel && channel.delete!
 
     user_1.delete!
     user_3.delete!
     user_4.delete!
-    channel = protonet.find_channel_by_name("test_foobar")
-    channel.delete!
-    channel = protonet.find_channel_by_name("test_foobar_2")
-    channel.delete!
+    ["test_foobar", "test_foobar_2", "global"].each do |channel|
+      protonet.find_channel_by_name(channel).delete! rescue nil
+    end
+    
   end
   
   def test_all
@@ -79,5 +79,11 @@ class TestAll < Test::Unit::TestCase
     
     rendezvous = protonet.create_rendezvous(user_3.id, user_1.id)
     assert_equal [user_1.id, user_3.id], rendezvous.listener.map {|u| u.id.to_i}.sort
+    
+    channel_1 = protonet.create_channel(:name => "global", :skip_autosubscribe => true, :global => true)
+    assert_equal true, channel_1.global
+    
+    assert_equal channel_1.id, protonet.global_channels.first.id
+    assert_equal 1, protonet.global_channels.size
   end
 end
