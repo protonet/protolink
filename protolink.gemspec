@@ -26,14 +26,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<crack>, [">= 0"])
-      s.add_runtime_dependency(%q<httparty>, ["~> 0.5.1"])
+      s.add_runtime_dependency(%q<httparty>, ["~> 0.7.4"])
     else
       s.add_dependency(%q<crack>, [">= 0"])
       s.add_dependency(%q<httparty>, ["~> 0.7.4"])
     end
   else
     s.add_dependency(%q<crack>, [">= 0"])
-    s.add_dependency(%q<httparty>, ["~> 0.5.1"])
+    s.add_dependency(%q<httparty>, ["~> 0.7.4"])
   end
 end
 
