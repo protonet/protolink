@@ -17,11 +17,11 @@ module Protolink
     # * +:password+: your api users password
     # * +:proxy+: a hash with your proxy options (e.g. {:uri => 'http://user:pass@example.com', :port => 8800})
     #
-    def self.open(uri, username, password, proxy = nil)
+    def self.open(uri, username = nil, password = nil, proxy = nil)
       # this allows you to use the httparty class helpers (base_uri...) with multiple connections
       clazz = self.dup
       clazz.base_uri(uri)
-      clazz.basic_auth(username, password)
+      clazz.basic_auth(username, password) if username && password
       if proxy
         clazz.http_proxy(proxy[:uri], proxy[:port])
       end
@@ -132,6 +132,16 @@ module Protolink
 
     def destroy_listen(user_id, channel_id)
       delete('/api/v1/listens', :body => {:user_id => user_id, :channel_id => channel_id } )
+    end
+    
+    def couple(node_data)
+      response = post("/api/v1/couplings", :body => {:node_data => node_data})
+      [User.new(self, response[0]), response[1]] if response
+    end
+    
+    def node_data
+      response = get("/api/v1/nodes/1")
+      Node.new(self, response) if response
     end
     
     [:get, :post, :update, :delete].each do |method|

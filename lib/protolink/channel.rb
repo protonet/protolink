@@ -1,6 +1,6 @@
 module Protolink
   class Channel
-    attr_reader :id, :name, :description, :global
+    attr_reader :id, :name, :description, :global, :uuid
 
     def initialize(connection, attributes = {})
       @connection  = connection
@@ -8,6 +8,7 @@ module Protolink
       @name        = attributes['name']
       @description = attributes['description']
       @global      = attributes['global']
+      @uuid        = attributes['uuid']
       @loaded      = false
     end
     
