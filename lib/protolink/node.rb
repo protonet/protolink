@@ -11,6 +11,9 @@ module Protolink
       @loaded     = false
     end
 
+    def coupled?
+      connection.get("/api/v1/couplings/#{id}")
+    end
 
     protected
       def connection
