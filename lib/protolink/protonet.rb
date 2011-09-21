@@ -139,7 +139,7 @@ module Protolink
       [User.new(self, response[0]), response[1]] if response
     end
     
-    def node_data
+    def node
       response = get("/api/v1/nodes/1")
       Node.new(self, response) if response
     end
