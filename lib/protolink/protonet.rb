@@ -60,7 +60,12 @@ module Protolink
 
     # Find a Channel by name
     def find_channel_by_name(name)
-      response = get("/api/v1/channels/#{name}")
+      response = get("/api/v1/channels/find_by_name/#{name}")
+      Channel.new(self, response) if response
+    end
+    
+    def find_channel_by_uuid(uuid)
+      response = get("/api/v1/channels/find_by_uuid/#{uuid}")
       Channel.new(self, response) if response
     end
     
