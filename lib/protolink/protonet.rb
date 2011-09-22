@@ -132,7 +132,7 @@ module Protolink
 
     # LISTENS
     def create_listen(user_id, channel_id)
-      channel_query = channel_id.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
+      channel_query = channel_id.to_s.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
       post('/api/v1/listens', :body => {:user_id => user_id}.merge(channel_query) )
     end
 
