@@ -4,14 +4,13 @@ ProtoLink is a library for interfacing with ProtoNet, the next-gen internet infr
 
 Version: 0.2.1
 
-Sorry, there are no tests at all yet...
+Tests are in test/all_test.rb.
 
 
 ## Dependencies
 
-    httparty
-    crack
-
+  See Gemfile
+  
 ## Usage
 
     # CHANNELS
@@ -142,6 +141,18 @@ Sorry, there are no tests at all yet...
 
     gem install protolink
 
+## IRB
+
+    $LOAD_PATH.unshift "#{`pwd`.strip}/lib" # project directory
+    require 'rubygems'
+    require 'protolink'
+    require 'ruby-debug'
+    Debugger.start
+    # change this if you need to connect to another server
+    PTN_SERVER = "http://localhost:3000"
+    PTN_USER   = "admin"
+    PTN_PASS   = "admin"
+    protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
 
 ## How to contribute
 

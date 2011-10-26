@@ -1,7 +1,11 @@
+$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+
 require 'rubygems'
 require 'protolink'
 
-protonet   = Protolink::Protonet.open('http://localhost:3000', 'bjoern.dorra', 'geheim')
+# FOR MORE CURRENT EXAMPLES PLEASE CHECK test/all_tests.rb - THANKS!
+
+protonet   = Protolink::Protonet.open('http://localhost:3000', 'admin', 'admin')
 
 user       = protonet.find_or_create_user_by_login("johndoe", :password => "password", :name => "John Doe", :email => "john@doe.com")
 auth_token = user.auth_token

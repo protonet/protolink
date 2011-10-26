@@ -25,11 +25,20 @@ module Protolink
       if proxy
         clazz.http_proxy(proxy[:uri], proxy[:port])
       end
-      clazz.new
+      clazz.new(username)
     end
     
     # CHANNELS
-
+    
+    def initialize(username)
+      @current_user_name = username
+      super()
+    end
+    
+    def current_user
+      @current_user ||= find_user_by_login(@current_user_name)
+    end
+    
     # Get an array of all the available channels
     def channels
       get('/api/v1/channels').map do |channel|
@@ -137,7 +146,7 @@ module Protolink
     end
 
     def destroy_listen(user_id, channel_id)
-      channel_query = channel_id.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
+      channel_query = channel_id.to_s.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
       delete('/api/v1/listens', :body => {:user_id => user_id}.merge(channel_query) )
     end
     
@@ -149,6 +158,12 @@ module Protolink
     def node
       response = get("/api/v1/nodes/1")
       Node.new(self, response) if response
+    end
+    
+    def socket(&blk)
+      EventMachine.run {
+        EventMachine.connect URI.parse(self.class.base_uri).host, 5000, ProtoSocket, self, blk
+      }
     end
     
     [:get, :post, :update, :delete].each do |method|

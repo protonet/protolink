@@ -8,8 +8,8 @@ require 'ruby-debug'
 Debugger.start
 # change this if you need to connect to another server
 PTN_SERVER = "http://localhost:3000"
-PTN_USER   = "test_suite"
-PTN_PASS   = "testtest"
+PTN_USER   = "admin"
+PTN_PASS   = "admin"
 
 class TestAll < Test::Unit::TestCase
   
