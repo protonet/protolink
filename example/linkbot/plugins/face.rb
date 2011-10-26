@@ -1,6 +1,6 @@
 class Face < Linkbot::Plugin
     def self.on_message(message, matches)
-      {:face => "http://i.imgur.com/ZbfvQ.gif"}
+      {:image => "http://i.imgur.com/ZbfvQ.gif"}
     end
 
     Linkbot::Plugin.register('face', self,

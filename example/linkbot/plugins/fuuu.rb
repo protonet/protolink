@@ -5,7 +5,7 @@ class Fuu < Linkbot::Plugin
     
     Linkbot::Plugin.register('fuuu', self,
       {
-        :message => {:regex => /fu+/i, :handler => :on_message}
+        :message => {:regex => /fuu+/i, :handler => :on_message}
       }
     )
 end
