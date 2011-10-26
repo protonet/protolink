@@ -31,7 +31,7 @@ protonet.socket do |json|
         "type"          => "Image",
         "image"         => image_url
       }
-      c.speak("", :text_extension => text_extension.to_json)
+      c.speak("", :text_extension => text_extension)
     else
       c.speak(response)
     end
