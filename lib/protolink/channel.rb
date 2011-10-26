@@ -28,6 +28,10 @@ module Protolink
         User.new(connection, user)
       end
     end
+    
+    def listen
+      
+    end
 
     protected
 

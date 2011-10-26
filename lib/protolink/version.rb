@@ -1,3 +1,3 @@
 module Protolink
-  VERSION = '0.2.7' unless defined?(::Protolink::VERSION)
+  VERSION = '0.2.8' unless defined?(::Protolink::VERSION)
 end
