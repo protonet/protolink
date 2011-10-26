@@ -31,7 +31,7 @@ class Comic < Linkbot::Plugin
 
       messages << url
     end
-    return messages.join("\n")
+    return {:images => messages}
   end
 
   def self.help

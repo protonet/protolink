@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'pp'
 require 'hpricot'
+require 'sanitize'
 
 class MessageType
   MESSAGE       = :message

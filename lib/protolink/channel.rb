@@ -15,7 +15,7 @@ module Protolink
 
     # Post a new message to the chat channel
     def speak(message, options = {})
-      send_message(message)
+      send_message(message, options)
     end
 
     def delete!
@@ -49,8 +49,8 @@ module Protolink
         @loaded      = true
       end
 
-      def send_message(message)
-        connection.post("/api/v1/meeps", :body => {:channel_id => self.id, :message => message})
+      def send_message(message, option)
+        connection.post("/api/v1/meeps", :body => {:channel_id => self.id, :message => message, :text_extension => option[:text_extension]})
       end
 
       def connection
