@@ -16,7 +16,7 @@ PTN_USER   = "admin"
 PTN_PASS   = "admin"
 protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
 protonet.socket do |json|
-  if json["trigger"] == "meep.receive" && json["user_id"].to_s != protonet.current_user.id.to_s
+  if json["trigger"] == "meep.receive" && json["user_id"] != protonet.current_user.id
     response = Linkbot::Plugin.handle_message(Message.new(json["message"], json["user_id"], json["author"], :message)) 
   end
   unless response.blank?
