@@ -27,7 +27,11 @@ class ProtoSocket < FlashConnection
   end
   
   def unbind
+    puts "DISCONNECTED"
     EventMachine::cancel_timer @ping
+    EventMachine::add_timer(30) {
+      EventMachine.connect URI.parse(@connection.class.base_uri).host, 5000, ProtoSocket, @connection, @message_callback
+    }
   end
   
 end
