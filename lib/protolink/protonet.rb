@@ -135,7 +135,7 @@ module Protolink
     end
     
     def find_user_by_login(login)
-      response = get("/api/v1/users/#{login}")
+      response = get("/api/v1/users/find_by_login/#{login}")
       User.new(self, response) if response
     end
 
