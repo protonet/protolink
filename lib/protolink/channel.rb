@@ -9,6 +9,7 @@ module Protolink
       @description = attributes['description']
       @global      = attributes['global']
       @uuid        = attributes['uuid']
+      @rendezvous  = attributes['rendezvous']
       @loaded      = false
     end
     

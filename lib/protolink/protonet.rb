@@ -104,6 +104,10 @@ module Protolink
         User.new(self, user)
       end
     end
+    
+    def auth
+      get('/api/v1/auth')
+    end
 
     # Creates and returns a new user with the given attributes
     def create_user(options)
@@ -138,6 +142,16 @@ module Protolink
       response = get("/api/v1/users/find_by_login/#{login}")
       User.new(self, response) if response
     end
+    
+    def find_subscribed_channels
+      response = get("/api/v1/channels").map do |channel|
+        Channel.new(self, channel)
+      end
+    end
+    
+    def rendezvous
+      
+    end
 
     # LISTENS
     def create_listen(user_id, channel_id)
@@ -154,6 +168,16 @@ module Protolink
       response = post("/api/v1/couplings", :body => {:node_data => node_data})
       [User.new(self, response[0]), response[1]] if response
     end
+    
+    # MEEPS
+    
+    def find_meeps_by_channel channel_id, limit = nil, offset = nil
+      response = get("/api/v1/channels/#{channel_id}/meeps?limit=#{limit}&offset=#{offset}").map do |meep|
+        Meep.new(self, meep)
+      end
+    end
+    
+    # NODE
     
     def node
       response = get("/api/v1/nodes/1")

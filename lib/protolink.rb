@@ -4,6 +4,7 @@ require 'protolink/proto_socket'
 require 'protolink/protonet'
 require 'protolink/channel'
 require 'protolink/user'
+require 'protolink/meep'
 require 'protolink/listen'
 require 'protolink/node'
 
