@@ -99,11 +99,11 @@ module Protolink
     # AUTHENTICATION
 
     def auth
-      get('/api/v1/auth')
+      get('/api/v1/users/auth')
     end
 
-    def reset_password email
-      get('/api/v1/reset_password', :user => {:email => email })
+    def reset_password email, host = nil
+      get('/api/v1/users/reset_password', :query => {:user => {:login => email}, :host => host })
     end
 
     # USERS
@@ -153,10 +153,6 @@ module Protolink
       response = get("/api/v1/channels").map do |channel|
         Channel.new(self, channel)
       end
-    end
-    
-    def rendezvous
-      
     end
 
     # LISTENS
