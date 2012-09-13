@@ -96,6 +96,16 @@ module Protolink
       end
     end
 
+    # AUTHENTICATION
+
+    def auth
+      get('/api/v1/auth')
+    end
+
+    def reset_password email
+      get('/api/v1/reset_password', :user => {:email => email })
+    end
+
     # USERS
     
     # Get an array of all the available users
@@ -103,10 +113,6 @@ module Protolink
       get('/api/v1/users.json').map do |user|
         User.new(self, user)
       end
-    end
-    
-    def auth
-      get('/api/v1/auth')
     end
 
     # Creates and returns a new user with the given attributes
