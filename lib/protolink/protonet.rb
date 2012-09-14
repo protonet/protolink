@@ -110,14 +110,13 @@ module Protolink
     end
 
     def reset_password! reset_password_token, password, password_confirmation
-      response = post('/api/v1/users/reset_password', :body => {
+      post('/api/v1/users/reset_password', :body => {
         :user => {
           :reset_password_token => reset_password_token, 
           :password => password,
           :password_confirmation => password_confirmation
         }
       })
-      User.new(self, response) if response
     end
 
     # USERS
