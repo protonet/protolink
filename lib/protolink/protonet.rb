@@ -119,6 +119,13 @@ module Protolink
       })
     end
 
+    def sign_up params
+      response = post('/api/v1/users/sign_up', :body => params)
+      User.new(self, response) 
+    rescue ApiException => e
+      {:errors => e.message}
+    end
+
     # USERS
     
     # Get an array of all the available users
