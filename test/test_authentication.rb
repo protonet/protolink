@@ -9,11 +9,23 @@ class TestAuthentication < Test::Unit::TestCase
 
   def test_reset_password
     assert_nil Protolink::Protonet.open(@api_server, nil, nil).reset_password(nil)
-    assert Protolink::Protonet.open(@api_server, nil, nil).reset_password("admin@protonet.local")
+    response = Protolink::Protonet.open(@api_server, nil, nil).reset_password("admin@protonet.local")
+    reset_password_token = response["reset_password_token"] 
+    assert reset_password_token
+
+    assert_nil Protolink::Protonet.open(@api_server, nil, nil).reset_password!("token", "pw", "pw")
+
+    assert Protolink::Protonet.open(@api_server, nil, nil).reset_password!(
+      reset_password_token,
+      "protonet",
+      "protonet"
+    )
+    
+    assert Protolink::Protonet.open(@api_server, "admin@protonet.local", "protonet")
   end
 
   def test_sign_up
-    user = Protolink::Protonet.open(@api_server, nil, nil).sign_up
+    # user = Protolink::Protonet.open(@api_server, nil, nil).sign_up
     
   end
 
