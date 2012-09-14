@@ -120,8 +120,7 @@ module Protolink
     end
 
     def sign_up params
-      response = post('/api/v1/users/sign_up', :body => params)
-      User.new(self, response) 
+      post('/api/v1/users/sign_up', :body => params)
     rescue ApiException => e
       {:errors => e.message}
     end
