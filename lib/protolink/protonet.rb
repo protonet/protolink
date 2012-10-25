@@ -198,6 +198,10 @@ module Protolink
       end
     end
     
+    def update_last_read_meep(mapping)
+      post("/api/v1/users/update_last_read_meeps", :body => {:mapping => mapping})
+    end
+    
     # NODE
     
     def node

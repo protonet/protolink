@@ -1,16 +1,18 @@
 module Protolink
   class Channel
-    attr_reader :id, :name, :description, :global, :uuid, :rendezvous
+    attr_reader :id, :name, :description, :global, :uuid, :rendezvous, :last_read_meep, :listen_id
 
     def initialize(connection, attributes = {})
-      @connection  = connection
-      @id          = attributes['id']
-      @name        = attributes['name']
-      @description = attributes['description']
-      @global      = attributes['global']
-      @uuid        = attributes['uuid']
-      @rendezvous  = attributes['rendezvous']
-      @loaded      = false
+      @connection     = connection
+      @id             = attributes['id']
+      @name           = attributes['name']
+      @description    = attributes['description']
+      @global         = attributes['global']
+      @uuid           = attributes['uuid']
+      @rendezvous     = attributes['rendezvous']
+      @last_read_meep = attributes['last_read_meep']
+      @listen_id      = attributes['listen_id']
+      @loaded         = false
     end
     
 
