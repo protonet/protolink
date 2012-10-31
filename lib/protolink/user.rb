@@ -1,6 +1,7 @@
 module Protolink
   class User
-    attr_reader :id, :name, :login, :email, :avatar_url, :external_profile_url, :communication_token, :node_id
+    attr_reader :id, :name, :login, :email, :avatar, :subscriptions, 
+                :external_profile_url, :communication_token, :node_id
 
     def initialize(connection, attributes = {})
       @connection = connection
@@ -8,7 +9,8 @@ module Protolink
       @name       = attributes['name']
       @login      = attributes['login']
       @email      = attributes['email']
-      @avatar_url = attributes['avatar_url']
+      @avatar     = attributes['avatar']
+      @subscriptions = attributes['subscriptions']
       @node_id    = attributes['node_id']
       @external_profile_url = attributes['external_profile_url']
       @communication_token  = attributes['communication_token']
