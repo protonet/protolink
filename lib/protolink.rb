@@ -1,11 +1,11 @@
 require 'eventmachine'
-require 'protolink/flash_connection'
-require 'protolink/proto_socket'
-require 'protolink/protonet'
-require 'protolink/channel'
-require 'protolink/user'
-require 'protolink/listen'
-require 'protolink/node'
+require_relative 'protolink/flash_connection'
+require_relative 'protolink/proto_socket'
+require_relative 'protolink/protonet'
+require_relative 'protolink/project'
+require_relative 'protolink/user'
+require_relative 'protolink/subscription'
+require_relative 'protolink/topic'
 
 
 module Protolink

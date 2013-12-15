@@ -1,46 +1,50 @@
 module Protolink
   class User
-    attr_reader :id, :name, :login, :email, :avatar_url, :external_profile_url, :communication_token, :node_id
+    attr_reader :id, :first_name, :last_name, :username, :email
 
-    def initialize(connection, attributes = {})
-      @connection = connection
-      @id         = attributes['id']
-      @name       = attributes['name']
-      @login      = attributes['login']
-      @email      = attributes['email']
-      @avatar_url = attributes['avatar_url']
-      @node_id    = attributes['node_id']
-      @external_profile_url = attributes['external_profile_url']
-      @communication_token  = attributes['communication_token']
-      @loaded     = false
+    def initialize(connection, response)
+      attributes = if response.respond_to?(:parsed_response)
+        response.parsed_response
+      else
+        response
+      end
+
+      @connection     = connection
+      @id             = attributes['id']
+      @first_name     = attributes['first_name']
+      @last_name      = attributes['last_name']
+      @username       = attributes['username']
+      @email          = attributes['email']
     end
 
     # get token for autologin
-    def auth_token
-      connection.get("/api/v1/users/#{self.id}/auth_token.json")["token"]
+    def login_token
+      connection.get("/api/v1/users/#{self.id}/login_token").parsed_response["login_token"]
     end
     
-    def delete!
+    def login_cookies
+      connection.get("/api/v1/users/login_cookies").parsed_response["cookies"]
+    end
+
+    def subscribed_projects
+      projects = connection.get("/api/v1/users/#{self.id}/subscribed_projects")
+      projects && projects.map do |project|
+        Project.new(connection, project)
+      end
+    end
+
+    def subscribed_topics
+      topics = connection.get("/api/v1/users/#{self.id}/subscribed_topics")
+      topics && topics.map do |topic|
+        Topic.new(connection, topic)
+      end
+    end
+
+    def destroy!
       connection.delete("/api/v1/users/#{self.id}")
     end
 
     protected
-
-      def load
-        reload! unless @loaded
-      end
-
-      # does not work yet
-      def reload!
-        attributes = connection.get("/api/v1/users/#{@id}.json")['user']
-
-        @id         = attributes['id']
-        @name       = attributes['name']
-        @login      = attributes['login']
-        @email      = attributes['email']
-        @avatar_url = attributes['avatar_url']
-        @loaded    = true
-      end
 
       def connection
         @connection

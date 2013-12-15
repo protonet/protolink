@@ -4,30 +4,32 @@ require "rubygems"
 require "protolink"
 require "test/unit"
 
-require 'ruby-debug'
-Debugger.start
 # change this if you need to connect to another server
-PTN_SERVER = "http://localhost:3000"
-PTN_USER   = "admin"
-PTN_PASS   = "admin"
+require "./lib/protolink.rb"
+PTN_SERVER = "http://localhost:3001"
+PTN_USER   = "ali.jelveh"
+PTN_PASS   = "something"
+protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
+user = protonet.find_user_by_username("first_name.last_name")
+user.subscribed_projects.first.create_topic("foonar")
 
 class TestAll < Test::Unit::TestCase
   
   def teardown
     protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
-    user_1 = protonet.find_user_by_login("test")
-    user_3 = protonet.find_user_by_login("test_2")
-    user_4 = protonet.find_user_by_login("test_3")
+    user_1 = protonet.find_user_by_username("first_name.last_name")
+    # user_3 = protonet.find_user_by_username("test_2")
+    # user_4 = protonet.find_user_by_username("test_3")
 
-    channel = protonet.find_rendezvous(user_3.id, user_1.id)
-    channel && channel.delete!
+    # project = protonet.find_rendezvous(user_3.id, user_1.id)
+    # project && project.delete!
 
-    user_1.delete!
-    user_3.delete!
-    user_4.delete!
-    ["test_foobar", "test_foobar_2", "global"].each do |channel|
-      protonet.find_channel_by_name(channel).delete! rescue nil
-    end
+    user_1.destroy!
+    # user_3.delete!
+    # user_4.delete!
+    # ["test_foobar", "test_foobar_2"].each do |project_name|
+      # protonet.find_project_by_name(project_name).delete! rescue nil
+    # end
     
   end
   
@@ -35,55 +37,55 @@ class TestAll < Test::Unit::TestCase
     protonet = Protolink::Protonet.open(PTN_SERVER, PTN_USER, PTN_PASS)
     assert protonet, "Couldn't create connection instance"
     
-    user_1 = protonet.create_user(:login => 'test', :email => 'test@test.com', :external_profile_url => 'http://www.google.de')
+    user_1 = protonet.create_user(:first_name => 'first_name', :last_name => 'last_name', :email => 'test@test.com', :password => 'geheim12')
+    p user_1
     assert user_1.is_a?(Protolink::User), "Couldn't create user"
-    assert_equal 'test', user_1.login
+    assert_equal 'first_name.last_name', user_1.username
     assert_equal 'test@test.com', user_1.email
-    assert_equal 'http://www.google.de', user_1.external_profile_url
-    assert user_1.auth_token.match(/\w+/)
 
     assert_raise(Protolink::Protonet::ApiException) {
-      protonet.create_user(:login => 'test', :email => 'test@test.com', :external_profile_url => 'http://www.google.de')
+      protonet.create_user(:first_name => 'first_name', :last_name => 'last_name', :email => 'test@test.com')
     }
 
-    user_2 = protonet.find_or_create_user_by_login('test', :email => 'test@test.com')
-    assert_equal user_1.id, user_2.id
-    
-    user_3 = protonet.find_or_create_user_by_login('test_2', :email => 'test_2@test.com')
-    assert user_3.is_a?(Protolink::User), "Couldn't create user"
-    assert_equal 'test_2', user_3.login
-    assert_equal 'test_2@test.com', user_3.email
-    
-    user_4 = protonet.find_or_create_user_by_login('test_3', {:name => 'foobar', :email => "email@du-bist-mir-sympathisch.de", :external_profile_url => "http://du-bist-mir-sympathisch.de/profile_redirect", :avatar_url => "http://www.google.com/intl/en_com/images/srpr/logo2w.png"})
-    
-    channel_1 = protonet.create_channel(:name => "test_foobar", :skip_autosubscribe => true)
-    assert channel_1.is_a?(Protolink::Channel), "Couldn't create channel"
-    assert_equal 'test_foobar', channel_1.name
-    
-    channel_2 = protonet.find_or_create_channel_by_name("test_foobar")
-    assert_equal channel_1.id, channel_2.id
-    
-    channel_3 = protonet.find_or_create_channel_by_name("test_foobar_2")
-    assert channel_3.is_a?(Protolink::Channel), "Couldn't create channel"
-    assert_equal 'test_foobar_2', channel_3.name
-    assert channel_3.speak("dude!")["meep_id"] > 0
-    
-    protonet.create_listen(user_1.id, channel_1.id)
-    protonet.create_listen(user_3.id, channel_1.id)
-    
-    assert_equal [user_1.id, user_3.id].sort, channel_1.listener.map {|u| u.id}.sort
-    
-    protonet.destroy_listen(user_1.id, channel_1.id)
-    
-    assert_equal [user_3.id], channel_1.listener.map {|u| u.id}.sort
-    
-    rendezvous = protonet.create_rendezvous(user_3.id, user_1.id)
-    assert_equal [user_1.id, user_3.id], rendezvous.listener.map {|u| u.id.to_i}.sort
-    
-    channel_1 = protonet.create_channel(:name => "global", :skip_autosubscribe => true, :global => true)
-    assert_equal true, channel_1.global
-    
-    assert_equal channel_1.id, protonet.global_channels.first.id
-    assert_equal 1, protonet.global_channels.size
+    # we're still subscribing to the default project
+    assert_equal 1, user_1.subscribed_projects.size
+
+    project = protonet.create_project("foobar")
+
+    project.subscribe_user(user_1)
+
+    assert user_1.projects.detect {|user_project| user_project.id == project.id}
+
+    project.topics
+
+    topic = projects.create_topic
+
+    project.topics == +1
+
+    project = protonet.find_project_by_name(name)
+
+    topic = protonet.find_topic(id)
+
+    topic = project.find_topic_by_name(name)
+
+    topic.send_meep("foobar")
+
+    topic.meeps
+
+    protonet.meeps(:stream_id, :lt, :gt, :limit)
+
+    topic.destroy!
+
+    project.meeps(options)
+
+    project.unsubscribe_user(user_1)
+
+    project.destroy!
+
+    # user_1.private_chat_with(user_2)
+    # user_1.private_chat_with(user_2).say("")
+
+    # user_1.private_chats
+        
   end
 end
