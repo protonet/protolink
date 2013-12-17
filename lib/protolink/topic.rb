@@ -7,10 +7,12 @@ module Protolink
       @id         = attributes['id']
       @user_id    = attributes['user_id']
       @project_id = attributes['project_id']
+      @stream_id  = attributes['stream_id']
     end
 
     def send_meep(message)
-      connection.post("/api/v1/topics/#{self.id}/meeps", :body => { :message => message })
+      response = connection.post("/api/v1/topics/#{self.id}/meeps", :body => { :message => message })
+      Meep.new(connection, response) if response
     end
 
     def destroy!

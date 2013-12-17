@@ -103,7 +103,6 @@ module Protolink
     # Find a user by id
     def find_user(id)
       response = get("/api/v1/users/#{id}")
-
       User.new(self, response) if response
     end
     
@@ -118,17 +117,23 @@ module Protolink
       User.new(self, response) if response
     end
 
-    # LISTENS
-    def join_project(user_id, project_id)
-      channel_query = channel_id.to_s.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
-      post('/api/v1/listens', :body => {:user_id => user_id}.merge(channel_query) )
+    # MEEPS
+    def find_meep(id)
+      response = get("/api/v1/meeps/#{id}")
+      p response
+      Meep.new(self, response) if response
     end
 
-    def leave_project(user_id, project_id)
-      channel_query = channel_id.to_s.match("-") ? {:channel_uuid => channel_id} : {:channel_id => channel_id}
-      delete('/api/v1/listens', :body => {:user_id => user_id}.merge(channel_query) )
+    def find_meeps_for_stream(stream_id, lt = nil, gt = nil, limit = nil)
+      query = {}
+      query[:lt] = lt if lt
+      query[:gt] = gt if gt
+      query[:limit] = limit if limit
+      response = get("/api/v1/streams/#{stream_id}/meeps", :query => query).map do |meep|
+        Meep.new(self, meep)
+      end
     end
-        
+
     def socket(&blk)
       EventMachine.run {
         EventMachine.connect URI.parse(self.class.base_uri).host, 5000, ProtoSocket, self, blk
