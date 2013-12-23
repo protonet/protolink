@@ -40,6 +40,13 @@ module Protolink
       end
     end
 
+    def private_chats
+      private_chats = connection.get("/api/v1/users/#{self.id}/private_chats")
+      private_chats && private_chats.map do |private_chat|
+        PrivateChat.new(connection, private_chat)
+      end
+    end
+
     def destroy!
       connection.delete("/api/v1/users/#{self.id}")
     end
