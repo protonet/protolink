@@ -135,9 +135,9 @@ module Protolink
     end
 
     def socket(&blk)
-      EventMachine.run {
-        EventMachine.connect URI.parse(self.class.base_uri).host, 5000, ProtoSocket, self, blk
-      }
+      # EventMachine.run {
+      #   EventMachine.connect URI.parse(self.class.base_uri).host, 5000, ProtoSocket, self, blk
+      # }
     end
     
     [:get, :post, :update, :delete].each do |method|
